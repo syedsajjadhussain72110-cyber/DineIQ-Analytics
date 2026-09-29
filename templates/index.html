@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f7f4">
+  <meta name="csrf" content="{{session.csrf}}">
+  <title>DineIQ Analytics</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script defer src="/static/app.js"></script>
+</head>
+<body class="app-body">
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-head">
+      <a class="brand" href="/"><span class="brand-mark">D</span><span class="brand-copy"><strong>DineIQ</strong><small>Analytics</small></span></a>
+      <button id="sidebar-toggle" class="icon-btn sidebar-toggle" type="button" aria-label="Collapse sidebar">‹</button>
+    </div>
+    <button id="workspace-btn" class="workspace-card workspace-button" type="button" title="Open MenuMatrix workspace" aria-haspopup="dialog" aria-controls="workspace-panel">
+      <span class="restaurant-avatar">MM</span>
+      <span class="workspace-copy"><strong>MenuMatrix</strong><small>Restaurant workspace</small></span>
+      <span class="workspace-status" aria-hidden="true"></span>
+    </button>
+    <div class="nav-label">COMMAND CENTER</div>
+    <nav id="nav" aria-label="Primary navigation"></nav>
+    <div class="sidebar-spacer"></div>
+    <div class="sidebar-bottom">
+      <button id="theme-toggle" class="theme-toggle" type="button"><span class="nav-icon">◐</span><span class="nav-text">Executive dark mode</span></button>
+      <div class="profile-card">
+        <div class="user-avatar">{{session.username[:1]|upper}}</div>
+        <div class="profile-copy"><strong>{{session.username}}</strong><small>{{session.role|replace('_',' ')}}</small></div>
+        <form method="post" action="/logout"><input type="hidden" name="csrf" value="{{session.csrf}}"><button class="logout-btn" title="Sign out" aria-label="Sign out">↗</button></form>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button id="mobile-nav" class="icon-btn mobile-nav" type="button" aria-label="Open navigation">☰</button>
+        <div class="breadcrumb"><span>DineIQ</span><b>/</b><strong id="crumb">Overview</strong></div>
+      </div>
+      <div class="topbar-actions">
+        <div class="data-state"><span class="live-dot"></span><span>Dataset live</span><b>PKR</b></div>
+        <button id="global-search-btn" class="icon-btn" type="button" title="Search (Ctrl+K)" aria-label="Search">⌕</button>
+        <button id="notification-btn" class="icon-btn notification-btn" type="button" title="Notifications" aria-label="Notifications" aria-haspopup="dialog" aria-controls="notification-panel">♢<i id="notification-dot"></i></button>
+        <button id="ai-shortcut" class="ai-shortcut" type="button"><span>✦</span> Ask DineIQ AI</button>
+      </div>
+    </header>
+
+    <section class="content">
+      <div class="heading">
+        <div>
+          <p class="eyebrow">RESTAURANT INTELLIGENCE COMMAND CENTER</p>
+          <h1 id="title">Good morning, {{session.username}}.</h1>
+          <p id="subtitle" class="muted">Here’s what’s happening across your restaurant data.</p>
+        </div>
+        <div class="heading-actions">
+          <button id="export" class="secondary export-btn" hidden>↓ Export CSV</button>
+          <button id="refresh-view" class="secondary" type="button">↻ Refresh</button>
+        </div>
+      </div>
+      <div id="notice" hidden role="status"></div>
+      <div id="surface"><div class="loading"><span class="loader"></span>Loading restaurant intelligence…</div></div>
+    </section>
+    <footer class="footer"><strong>DineIQ Analytics</strong><span>Independent Spark + Python models · Computed evidence · Synthetic evaluation data</span></footer>
+  </main>
+  <div id="sidebar-backdrop" class="sidebar-backdrop"></div>
+  <div id="workspace-panel" class="shell-overlay" hidden>
+    <section class="shell-dialog workspace-dialog" role="dialog" aria-modal="true" aria-labelledby="workspace-title">
+      <div class="shell-dialog-head">
+        <div class="workspace-dialog-title"><span class="restaurant-avatar">MM</span><div><p class="eyebrow">ACTIVE WORKSPACE</p><h2 id="workspace-title">MenuMatrix</h2><p class="muted">Restaurant workspace</p></div></div>
+        <button id="workspace-close" class="icon-btn" type="button" aria-label="Close workspace">×</button>
+      </div>
+      <div id="workspace-summary" class="workspace-summary"><div class="loading"><span class="loader"></span>Loading workspace…</div></div>
+      <div class="workspace-actions">
+        <button class="workspace-action" type="button" data-workspace-view="overview"><span>⌂</span><b>Overview</b><small>Executive KPIs</small></button>
+        <button class="workspace-action" type="button" data-workspace-view="menu"><span>◇</span><b>Menu</b><small>Item intelligence</small></button>
+        <button class="workspace-action" type="button" data-workspace-view="locations"><span>⌖</span><b>Locations</b><small>Branch performance</small></button>
+        <button class="workspace-action" type="button" data-workspace-view="recommendations"><span>✦</span><b>AI actions</b><small>Recommended moves</small></button>
+      </div>
+    </section>
+  </div>
+  <div id="notification-panel" class="shell-overlay" hidden>
+    <section class="shell-dialog notification-dialog" role="dialog" aria-modal="true" aria-labelledby="notification-title">
+      <div class="shell-dialog-head">
+        <div><p class="eyebrow">RESTAURANT SIGNALS</p><h2 id="notification-title">Notifications</h2></div>
+        <button id="notification-close" class="icon-btn" type="button" aria-label="Close notifications">×</button>
+      </div>
+      <div id="notification-list" class="notification-list"><div class="loading"><span class="loader"></span>Loading signals…</div></div>
+      <div class="notification-foot"><button id="notification-actions" class="secondary" type="button">Open recommendations</button></div>
+    </section>
+  </div>
+  <div id="search-backdrop" class="search-backdrop" hidden>
+    <section class="search-dialog" role="dialog" aria-modal="true" aria-labelledby="search-title">
+      <div class="search-head">
+        <div><p class="eyebrow">QUICK FIND</p><h2 id="search-title">Search DineIQ</h2></div>
+        <button id="search-close" class="icon-btn" type="button" aria-label="Close search">×</button>
+      </div>
+      <div class="global-search-field"><span>⌕</span><input id="global-search-input" autocomplete="off" placeholder="Search pages, menu items, locations…" aria-label="Search DineIQ"></div>
+      <div id="global-search-results" class="search-results"></div>
+      <div class="search-foot"><span>↑↓ Browse</span><span>Enter Open</span><span>Esc Close</span></div>
+    </section>
+  </div>
+</body>
+</html>
