@@ -22,8 +22,8 @@ function Get-Python311 {
 }
 function Get-JavaHome17 {
   if ($env:JAVA_HOME -and (Test-Path "$env:JAVA_HOME\bin\java.exe")) {
-    $v = & "$env:JAVA_HOME\bin\java.exe" -version 2>&1 | Select-Object -First 1
-    if ($v -match '17\.') { return $env:JAVA_HOME }
+    $v = cmd /c "`"$env:JAVA_HOME\bin\java.exe`" -version 2>&1"
+    if ($v -match 'version "17\.') { return $env:JAVA_HOME }
   }
   $roots = @("$env:ProgramFiles\Eclipse Adoptium", "$env:ProgramFiles\Java")
   foreach($r in $roots){
@@ -95,7 +95,8 @@ $env:SPARK_LOCAL_IP = '127.0.0.1'
 
 Write-Host 'Running runtime checks...' -ForegroundColor Yellow
 & $venvPython -c "import sys,pandas,numpy,pyspark,flask; assert sys.version_info[:2]==(3,11); print('Python',sys.version.split()[0]); print('pandas',pandas.__version__); print('numpy',numpy.__version__); print('PySpark',pyspark.__version__); print('Flask',flask.__version__ if hasattr(flask,'__version__') else 'installed')"
-& "$javaHome\bin\java.exe" -version
+$javaCheck = cmd /c "`"$javaHome\bin\java.exe`" -version 2>&1"
+$javaCheck | Select-Object -First 1 | Write-Host
 & $winutils ls . 2>$null | Out-Null
 
 Write-Host ''
