@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0d0f0e">
+  <title>DineIQ Analytics · Sign in</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script defer src="/static/login.js"></script>
+</head>
+<body class="login-page">
+  <div class="login-shell">
+    <section class="login-visual" aria-label="DineIQ restaurant intelligence">
+      <div class="login-visual-overlay"></div>
+      <div class="visual-top">
+        <a class="brand brand-light" href="/login"><span class="brand-mark">D</span><span>DineIQ</span><em>Analytics</em></a>
+        <span class="secure-chip"><i></i> Restaurant Intelligence OS</span>
+      </div>
+      <div class="visual-copy">
+        <p class="eyebrow eyebrow-light">AI-POWERED RESTAURANT INTELLIGENCE</p>
+        <h1>Turn restaurant data into <span>smarter decisions.</span></h1>
+        <p>Revenue, menu performance, customers and operations — transformed into clear, evidence-backed actions.</p>
+        <div class="signal-grid">
+          <article><span>Revenue signal</span><strong>Data-led growth</strong><small>Track what actually drives sales</small></article>
+          <article><span>Menu intelligence</span><strong>Margin aware</strong><small>See demand and contribution together</small></article>
+          <article><span>Waste intelligence</span><strong>Reduce leakage</strong><small>Spot avoidable operational cost</small></article>
+        </div>
+      </div>
+      <div class="visual-foot"><span class="live-dot"></span> Computed evidence · Independent Python + Spark models</div>
+    </section>
+
+    <main class="login-panel">
+      <div class="login-form-wrap">
+        <div class="mobile-brand"><span class="brand-mark">D</span><strong>DineIQ</strong><small>Analytics</small></div>
+        <p class="eyebrow">SECURE RESTAURANT WORKSPACE</p>
+        <h2>Welcome back</h2>
+        <p class="login-subtitle">Sign in to your restaurant intelligence workspace.</p>
+        {% if error %}<div class="form-alert error">{{error}}</div>{% endif %}
+        <form method="post" class="auth-form">
+          <input type="hidden" name="csrf" value="{{session.csrf}}">
+          <label>Username
+            <span class="field"><span class="field-icon">@</span><input name="username" autocomplete="username" placeholder="Enter your username" required></span>
+          </label>
+          <label>Password
+            <span class="field"><span class="field-icon">••</span><input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required><button id="password-toggle" class="password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button></span>
+          </label>
+          <div class="auth-meta"><span><span class="secure-mini">✓</span> Protected session</span><span>Role-based access</span></div>
+          <button class="primary auth-submit">Sign in to DineIQ <span>→</span></button>
+        </form>
+
+        <div class="register-box">
+          <details>
+            <summary>Create manager account <span>＋</span></summary>
+            <form action="/register" method="post" class="auth-form compact">
+              <input type="hidden" name="csrf" value="{{session.csrf}}">
+              <label>Username<input name="username" minlength="3" placeholder="Minimum 3 characters" required></label>
+              <label>Password<input name="password" type="password" minlength="12" placeholder="Minimum 12 characters" required></label>
+              <button class="secondary" type="submit">Create secure account</button>
+            </form>
+          </details>
+        </div>
+        <p class="auth-note">Synthetic evaluation data · DineIQ Analytics · SRS v1.0</p>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
