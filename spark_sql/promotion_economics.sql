@@ -1,0 +1,1 @@
+SELECT p.promotion_id,p.name,COUNT(DISTINCT f.order_id) orders,SUM(f.revenue) revenue,SUM(f.contribution) contribution FROM promotions p LEFT JOIN facts f ON f.promotion_id=p.promotion_id GROUP BY p.promotion_id,p.name
