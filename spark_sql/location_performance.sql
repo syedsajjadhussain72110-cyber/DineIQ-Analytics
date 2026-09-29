@@ -1,0 +1,1 @@
+SELECT location_id,COUNT(DISTINCT order_id) orders,COUNT(DISTINCT customer_id) customers,SUM(revenue) revenue,SUM(contribution) contribution,SUM(revenue)/COUNT(DISTINCT order_id) average_order_value FROM facts GROUP BY location_id ORDER BY revenue DESC
