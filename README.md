@@ -7,7 +7,7 @@ A runnable restaurant intelligence application with Flask, Pandas, Apache Spark,
 
 ## Verified Windows runtime
 
-The final Windows path was verified with **Python 3.11**, **Java/OpenJDK 17**, **PySpark 3.5.3**, `pandas 2.2.3`, plus the Windows Hadoop helper (`winutils.exe` + `hadoop.dll`).
+The final Windows path was verified with **Python 3.11**, **Java/OpenJDK 17**, **PySpark 3.5.3**, `pandas 2.2.3`, plus the Windows Hadoop helper (`winutils.exe` + `hadoop.dll`). Python 3.11 is intentional for this verified PySpark 3.5.3 runtime; changing the interpreter version should be followed by a complete Spark and regression test pass.
 
 ### First-time setup
 1. Double-click `SETUP_DINEIQ.bat`.
